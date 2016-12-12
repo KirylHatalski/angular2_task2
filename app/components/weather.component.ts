@@ -12,7 +12,8 @@ import { PositionServise } from '../services/position.service'
 })
 
 export class WeatherComponent {
-    constructor(WeatherServise: WeatherServise, PositionServise: PositionServise) {
+
+    constructor(WeatherServise: WeatherServise, PositionServise: PositionServise) {    
         this.WeatherServise = WeatherServise;
         this.PositionServise = PositionServise;
 

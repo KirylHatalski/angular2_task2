@@ -21,7 +21,7 @@ module.exports =  {
       },
       {
         test: /\.ts$/,
-        loader: 'awesome-typescript-loader?resolve url'
+        loader: 'ts-loader'
       },
       {
 				test: /\.(eot|woff|ttf|svg|png|jpg)$/,
@@ -49,7 +49,7 @@ module.exports =  {
   resolveLoader: {
     modulesDirectories: ['node_modules'],
     moduleTemplates: ['' ,'*-loader', '*'],
-    extensions: ['', '.js']
+    extensions: ['', '.js', '.ts']
   },
   devServer: {
     contentBase: "desc/",

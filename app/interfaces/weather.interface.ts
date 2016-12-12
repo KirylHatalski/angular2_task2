@@ -28,3 +28,7 @@ interface IAnotherCoords {
 interface ITemperatyre {
   temp: number;
 }
+
+interface IWeatherServise {
+  getWeather: Promise<Object>;
+}

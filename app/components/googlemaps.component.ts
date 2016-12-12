@@ -12,11 +12,13 @@ import { MarkerServise } from '../services/marker.service';
 })
 
 export class GooglemapsComponent {
+    tmarkerServise: MarkerServise;
+    tpositionServise: PositionServise;
     constructor(PositionServise: PositionServise, MarkerServise: MarkerServise) {
-        this.PositionServise = PositionServise;
-        this.MarkerServise = MarkerServise;
+        this.tpositionServise = PositionServise;
+        this.tmarkerServise = MarkerServise;
 
-        this.PositionServise.getPosition().then((data: ICoordinates) => {
+        this.tpositionServise.getPosition().then((data: ICoordinates) => {
             this.initMap(data)
         });
     }
@@ -26,20 +28,24 @@ export class GooglemapsComponent {
             map: google.maps.Map,
             markers: IWeather;
 
-        markers = JSON.parse(localStorage.getItem('weather'));
 
         elem.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyA2BbPGgt4MP4YD12z5AftgBgGS9vitNJE&callback=googleResponse`;
         document.body.appendChild(elem);
 
         (<IWindow>window).googleResponse = () => {
+            markers = JSON.parse(localStorage.getItem('weather'));
+
             map = new google.maps.Map(document.querySelector('.map'), {
                 center: { lat: coords.latitude, lng: coords.longitude },
                 zoom: 10,
                 mapTypeId: google.maps.MapTypeId.SATELLITE
             });
 
-            this.MarkerServise.createMarkers(markers.list, map);
+            if (localStorage.getItem('weather')) {
+                this.tmarkerServise.createMarkers(markers.list, map);
+            } else { //hehehe
+                setTimeout((<IWindow>window).googleResponse, 2000);
+            }
         }
-
     }
 }

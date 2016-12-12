@@ -12,24 +12,27 @@ import { PositionServise } from '../services/position.service'
 })
 
 export class WeatherComponent {
+    tweatherServise: WeatherServise;
+    tpositionServise: PositionServise;
 
-    constructor(WeatherServise: WeatherServise, PositionServise: PositionServise) {    
-        this.WeatherServise = WeatherServise;
-        this.PositionServise = PositionServise;
 
-        this.PositionServise.getPosition().then((coords: ICoordinates) => { this.initWeather(coords.latitude, coords.longitude) });
+    constructor(WeatherServise: WeatherServise, PositionServise: PositionServise) {
+        this.tweatherServise = WeatherServise;
+        this.tpositionServise = PositionServise;
+
+        this.tpositionServise.getPosition().then((coords: ICoordinates) => { this.initWeather(coords.latitude, coords.longitude) });
     }
 
     initWeather(lat: number, lon: number) {
         let tempWeather: IWeather = JSON.parse(localStorage.getItem('weather'));
         if (tempWeather) {
             if (Date.now() - tempWeather.createTime > 10 * 60 * 1000) {
-                this.WeatherServise.getWeather(lat, lon).then((data: IWeather) => {
+                this.tweatherServise.getWeather(lat, lon).then((data: IWeather) => {
                     localStorage.setItem('weather', JSON.stringify(data));
                 })
             }
         } else {
-            this.WeatherServise.getWeather(lat, lon).then((data: IWeather) => {
+            this.tweatherServise.getWeather(lat, lon).then((data: IWeather) => {
                 localStorage.setItem('weather', JSON.stringify(data));
             })
         }
